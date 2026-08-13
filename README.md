@@ -1,6 +1,6 @@
 # RavenGPT
 
-An AI chat interface that runs entirely in your browser. You bring an OpenRouter API key; the app never touches a server. Four modes — standard chat, visible-reasoning, web search with citations, and vision — each with dynamic model discovery so you're always working with whatever free models OpenRouter has live.
+An AI chat interface that runs entirely in your browser. You bring an OpenRouter API key; the app never touches a server. It has four modes (standard chat, visible-reasoning, web search with citations, and vision), each with dynamic model discovery so you're always working with whatever free models OpenRouter has live.
 
 **Live demo:** [raven-gpt0.vercel.app](https://raven-gpt0.vercel.app)
 
@@ -10,7 +10,7 @@ An AI chat interface that runs entirely in your browser. You bring an OpenRouter
 
 ## How It Works
 
-Every request goes straight from your browser to OpenRouter. Nothing is logged, proxied, or stored on my end — your API key lives in your browser's local storage, and your conversations never leave your machine except as direct API calls.
+Every request goes straight from your browser to OpenRouter. Nothing is logged, proxied, or stored on my end. Your API key lives in your browser's local storage, and your conversations never leave your machine except as direct API calls.
 
 ```mermaid
 flowchart LR
@@ -56,13 +56,13 @@ Open `http://localhost:3000`, paste your OpenRouter key from [openrouter.ai/keys
 | Symptom | First thing to check |
 | --- | --- |
 | "Invalid API Key" | Re-copy the key from [openrouter.ai/keys](https://openrouter.ai/keys) |
-| Model not responding | Switch models — free-model availability changes |
+| Model not responding | Switch models; free-model availability changes |
 | Blank stream | Check browser console; most failures surface there |
 | Network error | OpenRouter is up at [status.openrouter.ai](https://status.openrouter.ai) |
 
 ## Status
 
-Active personal project. Features move fast and some are experimental, so expect churn — bug reports and suggestions are welcome as issues.
+Active personal project. Features move fast and some are experimental, so expect churn. Bug reports and suggestions are welcome as issues.
 
 ## License
 
