@@ -1,272 +1,69 @@
-# 🤖 RavenGPT - Advanced Frontend AI Assistant
+# RavenGPT
 
-A powerful, feature-rich RavenGPT application that runs entirely in your browser. No backend server required! Features reasoning models, web search, vision capabilities, and file uploads - all powered by your OpenRouter API key.
+An AI chat interface that runs entirely in your browser. You bring an OpenRouter API key; the app never touches a server. Four modes — standard chat, visible-reasoning, web search with citations, and vision — each with dynamic model discovery so you're always working with whatever free models OpenRouter has live.
 
-![RavenGPT](https://img.shields.io/badge/Next.js-15-black) ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue) ![Tailwind](https://img.shields.io/badge/Tailwind-3.4-cyan)
+**Live demo:** [raven-gpt0.vercel.app](https://raven-gpt0.vercel.app)
 
----
-
-## 👨‍💻 About This Project
-
-**Created by: wh1sky02**
-
-⚠️ **Development Status**: This application is currently in the **development phase**. While we strive for stability and reliability, you may encounter occasional bugs, features being refined, or unexpected behavior. Regular updates and improvements are being made continuously.
-
-### What to Expect:
-- 🐛 Potential bugs or issues (actively being fixed)
-- 🚧 Features still being refined and improved  
-- 📈 Regular updates with new capabilities
-- 🔧 Performance optimizations ongoing
-
-**Need Help?** If you encounter issues, try refreshing the page, checking your API key, or switching AI providers in settings.
+![Next.js 15](https://img.shields.io/badge/Next.js-15-black) ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue) ![Tailwind 3.4](https://img.shields.io/badge/Tailwind-3.4-cyan) ![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
-## ✨ Advanced Features
+## How It Works
 
-### 🔐 **Core Features**
-- **Secure & Private**: Your API key is stored locally in your browser only
-- **100% Free**: Use OpenRouter's free AI models with your own API key
-- **No Backend**: Runs entirely in your browser
-- **Beautiful UI**: Modern, responsive design with dark mode support
-- **Mobile Friendly**: Optimized for all screen sizes
+Every request goes straight from your browser to OpenRouter. Nothing is logged, proxied, or stored on my end — your API key lives in your browser's local storage, and your conversations never leave your machine except as direct API calls.
 
-### 🧠 **AI Capabilities**
-- **4 Specialized Modes**: Standard, Reasoning, Web Search, and Vision
-- **Reasoning Models**: Deep thinking with visible reasoning process (R1, QwQ, etc.)
-- **Web Search Integration**: Real-time internet information with citations
-- **Vision Analysis**: Upload and analyze images with AI
-- **File Upload**: Support for images and documents
-- **Dynamic Model Discovery**: Automatically fetches and filters models by capability
+```mermaid
+flowchart LR
+    A["You (browser)"] -->|"OpenRouter key in localStorage"| B["RavenGPT"]
+    B -->|"GET /models"| O["OpenRouter API"]
+    O -->|"free models list"| B
+    B -->|"stream chat"| O
+    O -->|"LLM response stream"| B
+```
 
-### 💬 **Chat Experience**
-- **Real-time Streaming**: Smooth, responsive chat experience
-- **Markdown Rendering**: Rich text formatting in AI responses
-- **Copy Messages**: Easy one-click message copying
-- **Message Citations**: See sources for web search results
-- **Reasoning Display**: Toggle visibility of AI thinking process
-- **File Attachments**: Visual display of uploaded files
+## Feature Modes
 
-## 🎯 Feature Modes
+| Mode | What it does | Typical models |
+| --- | --- | --- |
+| **Standard** | Fast text conversation with any free model | Llama, Mistral, Zephyr, OpenChat |
+| **Reasoning** | Deep-thinking models with a visible chain of thought you can toggle on/off; configurable effort (low/medium/high) | DeepSeek R1, QwQ |
+| **Web Search** | Pulls current information with automatic source citations | Any web-enabled model |
+| **Vision** | Upload images or documents and chat about them | Multi-modal models |
 
-### 🤖 **Standard Mode**
-- Basic AI conversation
-- All available free models
-- Text-based interactions
-- Fast and lightweight
+The model picker is not hardcoded. RavenGPT queries OpenRouter's live catalog, filters to $0.00 models for the selected mode, and falls back to a curated shortlist (Llama 3.2 3B/1B, Zephyr 7B, OpenChat 7B, Mistral 7B) if the fetch fails.
 
-### 🧠 **Reasoning Mode**
-- Advanced thinking models (DeepSeek R1, QwQ, etc.)
-- Visible reasoning process
-- Configurable reasoning effort (Low/Medium/High)
-- Toggle reasoning display on/off
-- Perfect for complex problems and analysis
-
-### 🌐 **Web Search Mode**
-- Real-time internet access
-- Automatic source citations
-- Configurable search context depth
-- Up-to-date information retrieval
-- Works with any compatible model
-
-### 👁️ **Vision Mode**
-- Image upload and analysis
-- Multi-modal conversations
-- Support for various image formats
-- Visual understanding and description
-- Combines images with text queries
-
-## 🛠️ Tech Stack
-
-- **Next.js 15** - React framework with App Router
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first styling
-- **Lucide React** - Beautiful icons
-- **React Markdown** - Markdown rendering
-- **OpenRouter API** - AI model access
-
-## 🚀 Quick Start
-
-### 1. Clone & Install
+## Running It Locally
 
 ```bash
-git clone <your-repo-url>
-cd ai-chatbot
+git clone https://github.com/1m1ssher/RavenGPT.git
+cd RavenGPT
 npm install
-```
-
-### 2. Get Your OpenRouter API Key
-
-1. Visit [OpenRouter](https://openrouter.ai/keys)
-2. Create a free account
-3. Generate your API key
-4. **Important**: OpenRouter offers free credits for new users, and many models are completely free!
-
-### 3. Run the App
-
-```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open `http://localhost:3000`, paste your OpenRouter key from [openrouter.ai/keys](https://openrouter.ai/keys), and go. New OpenRouter accounts get free credits, and a large set of models is permanently free.
 
-### 4. Start Chatting
+## Technical Notes
 
-1. Click the settings icon or "Set API Key to Get Started" button
-2. Paste your OpenRouter API key
-3. Choose your preferred AI model
-4. Start chatting!
+- **Stack:** Next.js 15 (App Router), TypeScript, Tailwind CSS, React Markdown, Lucide icons
+- **Streaming:** responses render token-by-token with full Markdown
+- **Attachments:** drag-and-drop or click upload for images and documents, rendered inline in the conversation
+- **Theme:** respects system dark/light preference
+- **Customization:** swap or extend the fallback model list in `src/app/page.tsx`; the API call lives in a single `sendMessage` function if you want to point it elsewhere
 
-## 🆓 Dynamic Free Models
+## Troubleshooting
 
-The app automatically fetches the latest free models from OpenRouter:
+| Symptom | First thing to check |
+| --- | --- |
+| "Invalid API Key" | Re-copy the key from [openrouter.ai/keys](https://openrouter.ai/keys) |
+| Model not responding | Switch models — free-model availability changes |
+| Blank stream | Check browser console; most failures surface there |
+| Network error | OpenRouter is up at [status.openrouter.ai](https://status.openrouter.ai) |
 
-- **Real-time Model Discovery** - Always up-to-date with OpenRouter's free offerings
-- **Automatic Filtering** - Only shows models with $0.00 pricing
-- **Fallback Models** - Includes backup models if API fetch fails
-- **Refresh Capability** - Manual refresh button to get the latest models
-- **Model Descriptions** - Hover over models to see descriptions
+## Status
 
-Current fallback models include:
-- **Llama 3.2 3B Instruct** - Meta's efficient model
-- **Llama 3.2 1B Instruct** - Lightweight and fast
-- **Zephyr 7B Beta** - Hugging Face's fine-tuned model
-- **OpenChat 7B** - Optimized for conversations
-- **Mistral 7B Instruct** - Powerful instruction-following model
+Active personal project. Features move fast and some are experimental, so expect churn — bug reports and suggestions are welcome as issues.
 
-## 🔒 Privacy & Security
+## License
 
-- **Local Storage Only**: Your API key never leaves your browser
-- **No Data Collection**: We don't store or track any conversations
-- **Direct API Calls**: Messages go directly from your browser to OpenRouter
-- **Open Source**: Full transparency - check the code yourself
-
-## 📱 Usage Tips
-
-### 💬 **Basic Usage**
-- **Enter Key**: Press Enter to send messages quickly
-- **Copy Feature**: Hover over any message to see the copy button
-- **Clear Chat**: Use the "Clear" button to start fresh
-- **Dark Mode**: The app automatically adapts to your system theme
-
-### 🔧 **Model Management**
-- **Mode Switching**: Use the mode selector to switch between Standard, Reasoning, Web Search, and Vision
-- **Smart Filtering**: Models automatically filter based on selected mode capabilities
-- **Refresh Models**: Click the refresh icon to update the models list
-- **Model Info**: Hover over model names to see descriptions
-
-### 🎨 **Advanced Features**
-- **File Upload**: Drag & drop or click upload button for images/documents
-- **Reasoning Control**: Adjust reasoning effort and toggle display in Reasoning mode
-- **Web Search**: Configure search context depth for better results
-- **Citations**: Click on source links in web search responses
-- **Attachments**: Remove uploaded files by clicking the X button
-
-## 🛠️ Development
-
-### Available Scripts
-
-```bash
-# Development server
-npm run dev
-
-# Production build
-npm run build
-
-# Start production server
-npm start
-
-# Lint code
-npm run lint
-```
-
-### Project Structure
-
-```
-ai-chatbot/
-├── src/
-│   └── app/
-│       ├── layout.tsx      # Root layout
-│       ├── page.tsx        # Main chatbot component
-│       └── globals.css     # Global styles
-├── public/                 # Static assets
-├── package.json           # Dependencies
-└── README.md              # This file
-```
-
-## 🔧 Customization
-
-### Adding More Models
-
-Edit the `FREE_MODELS` array in `src/app/page.tsx`:
-
-```typescript
-const FREE_MODELS = [
-  { id: 'your-model-id', name: 'Your Model Name' },
-  // ... existing models
-];
-```
-
-### Styling
-
-The app uses Tailwind CSS. Modify classes in the components or extend the theme in `tailwind.config.ts`.
-
-### API Configuration
-
-The app is configured for OpenRouter, but you can modify the API endpoint and headers in the `sendMessage` function.
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **"Invalid API Key"**: Double-check your OpenRouter API key
-2. **Network Errors**: Check your internet connection
-3. **Model Not Responding**: Try a different model from the dropdown
-4. **CORS Errors**: This shouldn't happen with OpenRouter, but ensure you're accessing via HTTP/HTTPS
-
-### Getting Help
-
-- Check the browser console for error messages
-- Verify your API key has sufficient credits on OpenRouter
-- Try different models if one isn't working
-
-## 📄 License
-
-This project is open source and available under the MIT License.
-
-## 🤝 Contributing
-
-**Development Status**: This project is currently in active development by **wh1sky02**.
-
-While contributions are welcome, please note:
-- This is a personal development project in beta phase
-- Expect frequent updates and changes
-- Some features may be experimental or unstable
-- Bug reports and suggestions are especially valuable
-
-Ways to contribute:
-- 🐛 Report bugs and issues
-- 💡 Suggest new features or improvements  
-- 📚 Help improve documentation
-- ⭐ Star the project if you find it useful
-
-## 📄 License
-
-This project is open source and available under the MIT License.
-
-## 🙏 Acknowledgments
-
-- **Created by**: wh1sky02
-- **Status**: Development Phase (Beta)
-- **Built with**: Next.js 15, TypeScript, Tailwind CSS
-- **Powered by**: OpenRouter, Groq, Together AI APIs
-
-## 🌟 Show Your Support
-
-If you find this project helpful, please give it a star! ⭐
-
----
-
-**⚠️ Development Notice**: This application is under active development. Expect updates, improvements, and occasional issues as new features are added and refined.
-
-**Built with ❤️ by wh1sky02 using Next.js and AI APIs**
+MIT.
